@@ -64,18 +64,19 @@ const StyledLinkButton = styled.a`
   top: 25px;
 `
 
-const Card = ({cardType}) => {
+const Card = ({cardType, title, created, twitterName, articleUrl, content}) => {
     return (
         <StyledWrapper>
             <InnerWrapper activeColor={cardType}>
-                <StyledHeading>Hello Elener</StyledHeading>
-                <DateInfo>3 days</DateInfo>
-                {cardType === 'twitter' && <StyledAvatar src="https://unavatar.now.sh/twitter/hello_roman"/>}
-                {cardType === 'article' && <StyledLinkButton href="#"/>}
+                <StyledHeading>{title}</StyledHeading>
+                <DateInfo>{created}</DateInfo>
+                {/*{cardType === 'twitter' && <StyledAvatar src="https://unavatar.now.sh/twitter/hello_roman"/>}*/}
+                {cardType === 'twitter' && <StyledAvatar src={twitterName}/>}
+                {cardType === 'article' && <StyledLinkButton href={articleUrl}/>}
             </InnerWrapper>
             <InnerWrapper>
                 <Paragraph>
-                    Jeśli ten komputer jest chroniony przez zaporę sieciową lub serwer proxy.
+                    {content}
                 </Paragraph>
                 <Button secondary>Remove</Button>
             </InnerWrapper>
@@ -85,10 +86,17 @@ const Card = ({cardType}) => {
 
 Card.propTypes = {
     cardType: PropTypes.oneOf(['note', 'twitter', 'article']),
+    title: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+    twitterName: PropTypes.string,
+    articleUrl: PropTypes.string,
+    content: PropTypes.string.isRequired,
 }
 
 Card.defaultProps = {
     cardType: 'note',
+    twitterName: null,
+    articleUrl: null,
 }
 
 export default Card;
