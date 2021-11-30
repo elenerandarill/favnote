@@ -1,6 +1,6 @@
 import React from 'react';
-import UserPageTemplate from "../templates/UserPageTemplate";
 import Card from "../components/molecules/Card/Card";
+import GridTemplate from "../templates/GridTemplate";
 
 
 const twitters = [
@@ -40,16 +40,19 @@ const twitters = [
 
 const Twitters = () => {
     return (
-        <UserPageTemplate pageType="twitter">
-            {twitters.map(item => <Card
-                key={item.id}
-                cardType="twitter"
-                title={item.title}
-                content={item.content}
-                created={item.created}
-                twitterName={`https://unavatar.now.sh/twitter/${item.twitterName}`}
-            />)}
-        </UserPageTemplate>
+        <GridTemplate pageType="twitters">
+            <>
+                {twitters.map(item => <Card
+                    key={item.id}
+                    cardType="twitters"
+                    id={item.id}
+                    title={item.title}
+                    content={item.content}
+                    created={item.created}
+                    twitterName={`https://unavatar.now.sh/twitter/${item.twitterName}`}
+                />)}
+            </>
+        </GridTemplate>
     );
 };
 

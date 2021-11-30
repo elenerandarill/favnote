@@ -1,6 +1,6 @@
 import React from 'react';
-import UserPageTemplate from "../templates/UserPageTemplate";
 import Card from "../components/molecules/Card/Card";
+import GridTemplate from "../templates/GridTemplate";
 
 
 const articles = [
@@ -40,16 +40,19 @@ const articles = [
 
 const Articles = () => {
     return (
-        <UserPageTemplate pageType="article">
-            {articles.map(item => <Card
-                key={item.id}
-                cardType="article"
-                title={item.title}
-                content={item.content}
-                articleUrl={item.articleUrl}
-                created={item.created}
-            />)}
-        </UserPageTemplate>
+        <GridTemplate pageType="articles">
+            <>
+                {articles.map(item => <Card
+                    key={item.id}
+                    cardType="articles"
+                    id={item.id}
+                    title={item.title}
+                    content={item.content}
+                    articleUrl={item.articleUrl}
+                    created={item.created}
+                />)}
+            </>
+        </GridTemplate>
     );
 };
 

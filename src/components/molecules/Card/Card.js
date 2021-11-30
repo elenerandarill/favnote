@@ -1,9 +1,11 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import PropTypes from 'prop-types';
 import Paragraph from "../../atoms/Paragraph/Paragraph";
 import Heading from "../../atoms/Heading/Heading";
 import Button from "../../atoms/Button/Button";
 import LinkIcon from "../../../assets/icons/link.svg";
+import {useState} from "react";
+import {Redirect} from "react-router-dom";
 
 
 const StyledWrapper = styled.div`
@@ -20,16 +22,17 @@ const InnerWrapper = styled.div`
   position: relative;
   padding: 17px 30px;
   background-color: ${({activeColor, theme}) => activeColor ? theme[activeColor] : 'white'};
+  ${({flex}) =>
+          flex && css`
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        `}
   :first-of-type {
     z-index: 200;
   }
 `
-//  ${({flex}) =>
-//       flex && css`
-//         display: flex;
-//         flex-direction: column;
-//         justify-content: space-between;
-//       `}
+
 
 const DateInfo = styled(Paragraph)`
   margin: 0 0 5px;
@@ -44,40 +47,45 @@ const StyledHeading = styled(Heading)`
 const StyledAvatar = styled.img`
   width: 86px;
   height: 86px;
-  border: 5px solid ${({theme}) => theme.twitter};
+  border: 5px solid ${({theme}) => theme.twitters};
   border-radius: 50px;
   position: absolute;
   right: 20px;
-  top: 40px;
+  top: 20px;
 `
 
 const StyledLinkButton = styled.a`
   display: block;
-  width: 70px;
-  height: 70px;
+  width: 55px;
+  height: 55px;
   border-radius: 50px;
   background-size: contain;
   background: white url(${LinkIcon}) no-repeat;
   background-position: 50%;
   position: absolute;
   right: 25px;
-  top: 25px;
+  top: 20px;
 `
 
-const Card = ({cardType, title, created, twitterName, articleUrl, content}) => {
+const Card = ({id, cardType, title, created, twitterName, articleUrl, content}) => {
+    const [redirect, setRedirect] = useState(false)
+
+    const handleCardClick = () => setRedirect(!redirect)
+
+    if(redirect) {
+        return <Redirect to={`${cardType}/${id}`}/>
+    }
     return (
-        <StyledWrapper>
+        <StyledWrapper onClick={handleCardClick}>
             <InnerWrapper activeColor={cardType}>
                 <StyledHeading>{title}</StyledHeading>
                 <DateInfo>{created}</DateInfo>
                 {/*{cardType === 'twitter' && <StyledAvatar src="https://unavatar.now.sh/twitter/hello_roman"/>}*/}
-                {cardType === 'twitter' && <StyledAvatar src={twitterName}/>}
-                {cardType === 'article' && <StyledLinkButton href={articleUrl}/>}
+                {cardType === 'twitters' && <StyledAvatar src={twitterName}/>}
+                {cardType === 'articles' && <StyledLinkButton href={articleUrl}/>}
             </InnerWrapper>
-            <InnerWrapper>
-                <Paragraph>
-                    {content}
-                </Paragraph>
+            <InnerWrapper flex>
+                <Paragraph>{content}</Paragraph>
                 <Button secondary>Remove</Button>
             </InnerWrapper>
         </StyledWrapper>
@@ -85,7 +93,7 @@ const Card = ({cardType, title, created, twitterName, articleUrl, content}) => {
 }
 
 Card.propTypes = {
-    cardType: PropTypes.oneOf(['note', 'twitter', 'article']),
+    cardType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
     title: PropTypes.string.isRequired,
     created: PropTypes.string.isRequired,
     twitterName: PropTypes.string,

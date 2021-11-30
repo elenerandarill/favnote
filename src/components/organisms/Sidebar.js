@@ -6,6 +6,7 @@ import twitterIcon from "../../assets/icons/twitter.svg";
 import bulbIcon from "../../assets/icons/bulb.svg";
 import logoutIcon from "../../assets/icons/logout.svg"
 import logo from "../../assets/icons/logo.svg"
+import PropTypes from "prop-types";
 
 const StyledWrapper = styled.nav`
   position: fixed;
@@ -47,10 +48,10 @@ const StyledLinksList = styled.ul`
 const Sidebar = ({pageType}) => {
     return (
         <StyledWrapper activeColor={pageType}>
-            <StyledLogoLink/>
+            <StyledLogoLink to="/"/>
             <StyledLinksList>
                 <li>
-                    <ButtonIcon exact as={NavLink} to="/" icon={pencilIcon} activeClassName="active"/>
+                    <ButtonIcon as={NavLink} to="/notes" icon={pencilIcon} activeClassName="active"/>
                 </li>
                 <li>
                     <ButtonIcon as={NavLink} to="/twitters" icon={twitterIcon} activeClassName="active"/>
@@ -63,6 +64,10 @@ const Sidebar = ({pageType}) => {
         </StyledWrapper>
     );
 };
+
+Sidebar.propTypes = {
+    pageType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+}
 
 
 export default Sidebar;
