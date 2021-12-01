@@ -1,11 +1,13 @@
 import styled, {css} from "styled-components";
 import PropTypes from 'prop-types';
+import {connect} from "react-redux";
 import Paragraph from "../../atoms/Paragraph/Paragraph";
 import Heading from "../../atoms/Heading/Heading";
 import Button from "../../atoms/Button/Button";
 import LinkIcon from "../../../assets/icons/link.svg";
 import {useState} from "react";
 import {Redirect} from "react-router-dom";
+import {removeItem} from "../../../actions";
 
 
 const StyledWrapper = styled.div`
@@ -21,7 +23,7 @@ const StyledWrapper = styled.div`
 const InnerWrapper = styled.div`
   position: relative;
   padding: 17px 30px;
-  background-color: ${({activeColor, theme}) => activeColor ? theme[activeColor] : 'white'};
+  background-color: ${({activecolor, theme}) => activecolor ? theme[activecolor] : 'white'};
   ${({flex}) =>
           flex && css`
           display: flex;
@@ -67,7 +69,7 @@ const StyledLinkButton = styled.a`
   top: 20px;
 `
 
-const Card = ({id, cardType, title, created, twitterName, articleUrl, content}) => {
+const Card = ({id, cardType, title, created, twitterName, articleUrl, content, removeItem}) => {
     const [redirect, setRedirect] = useState(false)
 
     const handleCardClick = () => setRedirect(!redirect)
@@ -77,7 +79,7 @@ const Card = ({id, cardType, title, created, twitterName, articleUrl, content}) 
     }
     return (
         <StyledWrapper onClick={handleCardClick}>
-            <InnerWrapper activeColor={cardType}>
+            <InnerWrapper activecolor={cardType}>
                 <StyledHeading>{title}</StyledHeading>
                 <DateInfo>{created}</DateInfo>
                 {/*{cardType === 'twitter' && <StyledAvatar src="https://unavatar.now.sh/twitter/hello_roman"/>}*/}
@@ -86,7 +88,7 @@ const Card = ({id, cardType, title, created, twitterName, articleUrl, content}) 
             </InnerWrapper>
             <InnerWrapper flex>
                 <Paragraph>{content}</Paragraph>
-                <Button secondary>Remove</Button>
+                <Button onClick={() => removeItem(cardType, id)} secondary>Remove</Button>
             </InnerWrapper>
         </StyledWrapper>
     )
@@ -99,6 +101,7 @@ Card.propTypes = {
     twitterName: PropTypes.string,
     articleUrl: PropTypes.string,
     content: PropTypes.string.isRequired,
+    removeItem: PropTypes.func.isRequired,
 }
 
 Card.defaultProps = {
@@ -107,4 +110,9 @@ Card.defaultProps = {
     articleUrl: null,
 }
 
-export default Card;
+const mapDispatchToProps = (dispatch) => ({
+    // removeItem(cardType, id) <<< from above onClick
+    removeItem: (itemType, id) => dispatch(removeItem(itemType, id))
+})
+
+export default connect(null, mapDispatchToProps)(Card);

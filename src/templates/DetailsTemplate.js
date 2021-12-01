@@ -13,7 +13,7 @@ const StyledWrapper = styled.div`
   position: relative;
 
   @media (max-width: 1200px) {
-    max-width: 80vw;
+    max-width: 70vw;
   }
 `;
 
@@ -64,9 +64,9 @@ const DetailsTemplate = ({ pageType, title, created, content, articleUrl, twitte
             <Paragraph>{content}</Paragraph>
             {pageType === 'articles' && <StyledLink href={articleUrl}>Open article</StyledLink>}
             {pageType === 'twitters' && (
-                <StyledImage alt={title} src={`https://avatars.io/twitter/${twitterName}`} />
+                <StyledImage alt={title} src={`https://unavatar.now.sh/twitter/${twitterName}`} />
             )}
-            <Button as={Link} to={`/${pageType}`} activeColor={pageType}>
+            <Button as={Link} to={`/${pageType}`} activecolor={pageType}>
                 save / close
             </Button>
         </StyledWrapper>

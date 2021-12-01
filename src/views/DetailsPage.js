@@ -6,7 +6,7 @@ import {routes} from "../routes";
 const DetailsPage = ({match}) => {
     const [pageType, setPageType] = useState("notes")
 
-    useEffect(() => {getPageType()}, [pageType])
+    useEffect(() => {getPageType()}, )
 
     const getPageType = () => {
         switch(match.path) {
@@ -46,7 +46,7 @@ const DetailsPage = ({match}) => {
 }
 
 DetailsPage.propTypes = {
-    match: PropTypes.string.isRequired,
+    match: PropTypes.object.isRequired,
 };
 
 export default DetailsPage;
